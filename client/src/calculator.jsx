@@ -18,6 +18,11 @@ const Calculator = () => {
             setReceivedData(value);
             setIsClear(false);
         }
+        else if (isClearAll) {
+            setIsFirst(true);
+            setReceivedData(value);
+            setIsClearAll(false);
+        }
         else {
             setReceivedData(receivedData + value);
         }
@@ -44,6 +49,10 @@ const Calculator = () => {
             }
         }
         setCurrentSymbol(symbol);
+        if (symbol === "=") {
+            setReceivedData(result);
+            setIsFirst(true);
+        }
         setIsClear(true);
     }
 
