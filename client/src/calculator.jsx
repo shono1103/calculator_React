@@ -10,9 +10,17 @@ const Calculator = () => {
     const [currentSymbol, setCurrentSymbol] = useState("");
     const [result, setResult] = useState("");
     const [isFirst, setIsFirst] = useState(true);
+    const [isClear, setIsClear] = useState(false);
+    const [isClearAll, setIsClearAll] = useState(false);
 
     const inputNumber = (value) => {
-        setReceivedData(receivedData + value);
+        if (isClear) {
+            setReceivedData(value);
+            setIsClear(false);
+        }
+        else {
+            setReceivedData(receivedData + value);
+        }
     }
 
     const inputSymbol = (symbol) => {
@@ -36,7 +44,7 @@ const Calculator = () => {
             }
         }
         setCurrentSymbol(symbol);
-        setReceivedData("");
+        setIsClear(true);
     }
 
 
