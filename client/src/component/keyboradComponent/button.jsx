@@ -1,8 +1,8 @@
 import './button.css';
 
-const Button = ({ input, name, text }) => {
+const Button = ({ input, name, text, value }) => {
     const onClick = () => {
-        input(text);
+        input(value);
     }
     return (
         <div className={name}>

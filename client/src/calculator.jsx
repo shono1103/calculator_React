@@ -6,35 +6,44 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Calculator = () => {
-    const [data, setData] = useState("0");
-    const [symbol, setSymbol] = useState("");
-    const [input, setInput] = useState("");
+    const [receivedData, setReceivedData] = useState("");
+    const [currentSymbol, setCurrentSymbol] = useState("");
+    const [result, setResult] = useState("");
+    const [isFirst, setIsFirst] = useState(true);
 
-    useEffect(() => {
-        if (input === "CA") {
-            setData("0");
-            setSymbol("");
-        } else if (input === "C") {
-            setData("0");
-        } else if (input === "=") {
-            setData(eval(data).toString());
-        } else {
-            if (data === "0" && !isNaN(input)) {
-                setData(input);
-            } else {
-                setData(data + input);
+    const inputNumber = (value) => {
+        setReceivedData(receivedData + value);
+    }
+
+    const inputSymbol = (symbol) => {
+        const num = parseFloat(receivedData);
+        if (isFirst) {
+            setResult(num);
+            setIsFirst(false);
+        }
+        else {
+            if (currentSymbol === "+") {
+                setResult(result + num);
+            }
+            else if (currentSymbol === "-") {
+                setResult(result - num);
+            }
+            else if (currentSymbol === "*") {
+                setResult(result * num);
+            }
+            else if (currentSymbol === "/") {
+                setResult(result / num);
             }
         }
-    }, [input]);
-
-    const handleClick = (input) => {
-        setInput(input);
+        setCurrentSymbol(symbol);
+        setReceivedData("");
     }
+
 
     return (
         <div className="calculator">
-            <Display data={data} symbol={symbol} />
-            <Keyboard input={handleClick} />
+            <Display data={receivedData} symbol={currentSymbol} />
+            <Keyboard inputNum={inputNumber} inputSymbol={inputSymbol} />
         </div>
     );
 }
