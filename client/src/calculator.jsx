@@ -6,35 +6,108 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Calculator = () => {
-    const [data, setData] = useState("0");
-    const [symbol, setSymbol] = useState("");
-    const [input, setInput] = useState("");
+    const [receivedData, setReceivedData] = useState("");
+    const [currentSymbol, setCurrentSymbol] = useState("");
+    const [result, setResult] = useState(0);
+    const [isFirst, setIsFirst] = useState(true);
+    const [display, setDisplay] = useState(0);
 
-    useEffect(() => {
-        if (input === "CA") {
-            setData("0");
-            setSymbol("");
-        } else if (input === "C") {
-            setData("0");
-        } else if (input === "=") {
-            setData(eval(data).toString());
-        } else {
-            if (data === "0" && !isNaN(input)) {
-                setData(input);
-            } else {
-                setData(data + input);
+    // 数字ボタンが押された時の処理
+    const pushNumber = (value) => {
+        setReceivedData(receivedData + value);
+        setDisplay(receivedData + value);
+    }
+
+    // ＋ー×÷ボタンが押された時の処理
+    const pushSymbol = (symbol) => {
+        const num = parseFloat(receivedData);
+        if (isFirst) {
+            setResult(num);
+            setIsFirst(false);
+        }
+        else {
+            if (currentSymbol === "+") {
+                setResult(result + num);
+                setDisplay(result + num);
+            }
+            else if (currentSymbol === "-") {
+                setResult(result - num);
+                setDisplay(result - num);
+            }
+            else if (currentSymbol === "*") {
+                setResult(result * num);
+                setDisplay(result * num);
+            }
+            else if (currentSymbol === "/") {
+                setResult(result / num);
+                setDisplay(result / num);
             }
         }
-    }, [input]);
-
-    const handleClick = (input) => {
-        setInput(input);
+        setCurrentSymbol(symbol);
+        Clear();
     }
+
+
+    // イコールボタンが押された時の処理
+    const pushEqual = (non) => {
+        const num = parseFloat(receivedData);
+        if (currentSymbol === "+") {
+            setResult(result + num);
+            setDisplay(result + num);
+        }
+        else if (currentSymbol === "-") {
+            setResult(result - num);
+            setDisplay(result - num);
+        }
+        else if (currentSymbol === "*") {
+            setResult(result * num);
+            setDisplay(result * num);
+        }
+        else if (currentSymbol === "/") {
+            setResult(result / num);
+            setDisplay(result / num);
+        }
+        setIsFirst(true);
+        ClearAll();
+    }
+
+    // Cボタンが押された時の処理
+    const Clear = () => {
+        setReceivedData("");
+    }
+
+    // CAボタンが押された時の処理
+    const ClearAll = () => {
+        setReceivedData("");
+        setCurrentSymbol("");
+        setResult(0);
+        setIsFirst(true);
+    }
+
+    const pushClear = (non) => {
+        Clear();
+        setDisplay(0);
+    }
+
+    const pushClearAll = (non) => {
+        ClearAll();
+        setDisplay(0);
+    }
+
+
+
 
     return (
         <div className="calculator">
-            <Display data={data} symbol={symbol} />
-            <Keyboard input={handleClick} />
+            <Display
+                data={display}
+                symbol={currentSymbol} />
+            <Keyboard
+                pushNum={pushNumber}
+                pushSymbol={pushSymbol}
+                pushEqual={pushEqual}
+                pushClear={pushClear}
+                pushClearAll={pushClearAll} />
         </div>
     );
 }
