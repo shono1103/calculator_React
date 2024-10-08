@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Calculator = () => {
-    const [receivedData, setReceivedData] = useState("0");   // 入力された値
+    const [receivedData, setReceivedData] = useState("");   // 入力された値
     const [currentSymbol, setCurrentSymbol] = useState("");   // 現在の演算子
     const [result, setResult] = useState(0);    // 計算結果
     const [isFirst, setIsFirst] = useState(true);   // 最初の数文字列かどうか
