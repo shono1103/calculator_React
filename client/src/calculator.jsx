@@ -12,6 +12,7 @@ const Calculator = () => {
     const [isFirst, setIsFirst] = useState(true);   // 最初の数文字列かどうか
     const [display, setDisplay] = useState("0");  // 表示する値
     const [existPoint, setExistPoint] = useState(false);    // 小数点が存在するかどうか
+    const [alreadySymbol, setAlreadySymbol] = useState(false);    // 演算子が既に押されているかどうか
 
 
     // 数字ボタンが押された時の処理
@@ -27,33 +28,37 @@ const Calculator = () => {
         }
         setReceivedData(receivedData + value);
         setDisplay(receivedData + value);
+        setAlreadySymbol(false);
     }
 
     // ＋ー×÷ボタンが押された時の処理
     const pushSymbol = (symbol) => {
-        const num = parseFloat(receivedData);
-        if (isFirst) {
-            setResult(num);
-            setIsFirst(false);
+        if (!alreadySymbol) {
+            const num = parseFloat(receivedData);
+            if (isFirst) {
+                setResult(num);
+                setIsFirst(false);
+            }
+            else {
+                if (currentSymbol === "+") {
+                    setResult(result + num);
+                    setDisplay((result + num).toString());
+                }
+                else if (currentSymbol === "-") {
+                    setResult(result - num);
+                    setDisplay((result - num).toString());
+                }
+                else if (currentSymbol === "*") {
+                    setResult(result * num);
+                    setDisplay((result * num).toString());
+                }
+                else if (currentSymbol === "/") {
+                    setResult(result / num);
+                    setDisplay((result / num).toString());
+                }
+            }
         }
-        else {
-            if (currentSymbol === "+") {
-                setResult(result + num);
-                setDisplay((result + num).toString());
-            }
-            else if (currentSymbol === "-") {
-                setResult(result - num);
-                setDisplay((result - num).toString());
-            }
-            else if (currentSymbol === "*") {
-                setResult(result * num);
-                setDisplay((result * num).toString());
-            }
-            else if (currentSymbol === "/") {
-                setResult(result / num);
-                setDisplay((result / num).toString());
-            }
-        }
+        setAlreadySymbol(true);
         setCurrentSymbol(symbol);
         Clear();
     }
