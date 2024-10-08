@@ -23,6 +23,7 @@ const Calculator = () => {
             setExistPoint(true);
             setDisplay(display + value);
             setReceivedData(display + value);
+            return;
         }
         setReceivedData(receivedData + value);
         setDisplay(receivedData + value);
