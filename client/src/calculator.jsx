@@ -6,12 +6,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Calculator = () => {
-    const [receivedData, setReceivedData] = useState("");   // 入力された値
+    const [receivedData, setReceivedData] = useState("0");   // 入力された値
     const [currentSymbol, setCurrentSymbol] = useState("");   // 現在の演算子
     const [result, setResult] = useState(0);    // 計算結果
-    const [isFirst, setIsFirst] = useState(true);   // 最初の数字かどうか
+    const [isFirst, setIsFirst] = useState(true);   // 最初の数文字列かどうか
     const [display, setDisplay] = useState("0");  // 表示する値
     const [existPoint, setExistPoint] = useState(false);    // 小数点が存在するかどうか
+
 
     // 数字ボタンが押された時の処理
     const pushNumber = (value) => {
@@ -20,6 +21,8 @@ const Calculator = () => {
                 return;
             }
             setExistPoint(true);
+            setDisplay(display + value);
+            setReceivedData(display + value);
         }
         setReceivedData(receivedData + value);
         setDisplay(receivedData + value);
@@ -35,19 +38,19 @@ const Calculator = () => {
         else {
             if (currentSymbol === "+") {
                 setResult(result + num);
-                setDisplay(toString(result + num));
+                setDisplay((result + num).toString());
             }
             else if (currentSymbol === "-") {
                 setResult(result - num);
-                setDisplay(toString(result - num));
+                setDisplay((result - num).toString());
             }
             else if (currentSymbol === "*") {
                 setResult(result * num);
-                setDisplay(toString(result * num));
+                setDisplay((result * num).toString());
             }
             else if (currentSymbol === "/") {
                 setResult(result / num);
-                setDisplay(toString(result / num));
+                setDisplay((result / num).toString());
             }
         }
         setCurrentSymbol(symbol);
@@ -60,19 +63,19 @@ const Calculator = () => {
         const num = parseFloat(receivedData);
         if (currentSymbol === "+") {
             setResult(result + num);
-            setDisplay(toString(result + num));
+            setDisplay((result + num).toString());
         }
         else if (currentSymbol === "-") {
             setResult(result - num);
-            setDisplay(toString(result - num));
+            setDisplay((result - num).toString());
         }
         else if (currentSymbol === "*") {
             setResult(result * num);
-            setDisplay(toString(result * num));
+            setDisplay((result * num).toString());
         }
         else if (currentSymbol === "/") {
             setResult(result / num);
-            setDisplay(toString(result / num));
+            setDisplay((result / num).toString());
         }
         setIsFirst(true);
         ClearAll();
